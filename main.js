@@ -1,5 +1,5 @@
 var enemyImg= document.createElement("img");
-bgImg.src= "images/rukia.png";
+bgImg.src= "images/rukia.gif";
 var canvas= document.gtElementByld("game-canvas");
 var ctx= canvas.getContext("2d");
 
