@@ -1,10 +1,10 @@
-var bglmg= document.createElement("img")
-bglmg.src= "iamges/cannon-ball.png"
+var bgImg= document.createElement("img")
+bgImg.src= "iamges/cannon-ball.png"
 var canvas= document.gtElementByld("game-canvas")
 var ctx= canvas.getContext("2d")
 
 function draw (){
-  ctx.drawImage(bglmg,0,0)
+  ctx.drawImage(bgImg,0,0)
 }
 
 setTimeout (draw, 100)
