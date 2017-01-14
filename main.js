@@ -1,5 +1,5 @@
 var bgImg= document.createElement("img")
-bgImg.src= "iamges/cannon-ball.png"
+bgImg.src= "images/cannon-ball.png"
 var canvas= document.gtElementByld("game-canvas")
 var ctx= canvas.getContext("2d")
 
