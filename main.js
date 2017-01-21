@@ -1,3 +1,4 @@
+var bgImg= document.createElement("img");
 var enemyImg= document.createElement("img");
 bgImg.src= "images/rukia.gif";
 var canvas= document.gtElementByld("game-canvas");
