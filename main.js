@@ -14,7 +14,7 @@ function draw (){
 
 setInterval (draw, 16)
 
-var enemy{
+var enemy={
   x:90,
   y:480-32
 }
