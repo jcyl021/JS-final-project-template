@@ -4,7 +4,7 @@ var enemyImg= document.createElement("img");
 bgImg.src= "images/rukia.gif";
 enemyImg.src= "images/slime.gif";
 
-var canvas= document.gtElementByld("game-canvas");
+var canvas= document.getElementById("game-canvas");
 var ctx= canvas.getContext("2d");
 
 function draw (){
