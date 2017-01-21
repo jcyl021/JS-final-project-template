@@ -14,8 +14,10 @@ var ctx= canvas.getContext("2d");
 function draw (){
   ctx.drawImage(bgImg,0,0);
   ctx.drawImage(enemyImg,enemy.x,enemy.y);
-    ctx.drawImage(buttonImg,button.x,button.y,100,100);
+  ctx.drawImage(buttonImg,button.x,button.y,100,100);
+  if (isBuilding==true) {
     ctx.drawImage(cursorImg,cursor.x,cursor.y)
+  }
 }
 
 setInterval (draw, 16)
@@ -39,4 +41,17 @@ function cursorMove(event){
  cursor.x= event.offsetX;
  cursor.y= event.offsetY
  }
- setInterval (cursorMove, 16)
+
+
+
+var isBuilding= false
+
+$("#game-canvas").on("click", truify)
+
+function truify (event){
+  if (cursor.x>540 && cursor.y>380){
+    isBuilding= true
+}else{
+  isBuilding=false
+}
+}
