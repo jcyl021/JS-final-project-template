@@ -72,4 +72,5 @@ function build (){
     };
   ctx.drawImage(cursorImg,position.x,position.y);
   isBuilding=false
+  }
 }
