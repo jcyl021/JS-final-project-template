@@ -4,7 +4,7 @@ var buttonImg= document.createElement("img");
 var cursorImg= document.createElement("img");
 
 
-bgImg.src= "images/map.png";
+bgImg.src= "images/map.2.png";
 enemyImg.src= "images/slime.gif";
 buttonImg.src= "images/tower-btn.png";
 cursorImg.src= "images/tower.png";
@@ -69,8 +69,8 @@ function build (){
     var position= {
       x:event.offsetX,
       y:event.offsetY
-    };
-  ctx.drawImage(cursorImg,position.x,position.y);
-  isBuilding=false
+    }
+    ctx.drawImage(cursorImg,position.x,position.y);
+    isBuilding=false
   }
 }
