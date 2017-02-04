@@ -1,3 +1,5 @@
+var FPS=60
+
 var bgImg= document.createElement("img");
 var enemyImg= document.createElement("img");
 var buttonImg= document.createElement("img");
@@ -15,20 +17,32 @@ var ctx= canvas.getContext("2d");
 
 
 function draw (){
-  ctx.drawImage(bgImg,0,0);
+  ctx.drawImage(bgImg,0,0,640,480);
   ctx.drawImage(enemyImg,enemy.x,enemy.y);
-  ctx.drawImage(buttonImg,button.x,button.y,100,100);
-  }
-setInterval (draw, 16)
-
+  enemy.move();
+  ctx.drawImage(buttonImg,button.x,button.y,64,64);
+  if (isBuilding==true){
+    ctx.drawImage(cursorImg,tower.x,tower.y);
+  }else{
+    ctx.drawImage(cursorImg,cursor.x,cursor.y);
+   }
+}
+setInterval (draw, 1000/FPS)
 
 var enemy={
-  x:90,
-  y:480-32
+  x:0,
+  y:32,
+  speedX:0,
+  speedY:64,
+  move:function(){
+    this.x=this.x+this.speedX/FPS;
+    this.y=this.y+this.speedY/FPS
+  }
 }
+
  var button={
-   x:540,
-   y:380
+   x:640-64,
+   y:480-64,
  }
  var cursor={
    x:200,
@@ -47,30 +61,17 @@ var isBuilding= false
 $("#game-canvas").on("click", approve)
 
 function approve (event){
-  if (cursor.x>540 && cursor.y>380){
+  if (cursor.x>586 && cursor.y>416){
     isBuilding= true;
-}else{
-  isBuilding=false;
-}
-}
-
-
-function repeat (){
-  if (isBuilding==true){
-  ctx.drawImage(cursorImg,cursor.x,cursor.y);
-}
-setInterval(repeat, 16)
-
-
-$("#game-canvas").on("click", build)
-
-function build (){
-  if (isBuilding==true){
-    var position= {
-      x:event.offsetX,
-      y:event.offsetY
-    }
-    ctx.drawImage(cursorImg,position.x,position.y);
-    isBuilding=false
+  }else{
+  if(isBuilding=true){
+    tower.x=cursor.x;
+    tower.y=cursor.y;
   }
+   }
+}
+
+var tower={
+  x:0,
+  y:0
 }
