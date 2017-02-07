@@ -24,7 +24,7 @@ function draw (){
   if (isBuilding==true){
     ctx.drawImage(cursorImg,cursor.x,cursor.y);
   }else{
-      ctx.drawImage(cursorImg,tower.x,tower.y)
+      ctx.drawImage(cursorImg,tower.x-tower.x%32,tower.y-tower.y%32)
    }
 }
 setInterval (draw, 1000/FPS)
