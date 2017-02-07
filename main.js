@@ -22,9 +22,9 @@ function draw (){
   enemy.move();
   ctx.drawImage(buttonImg,button.x,button.y,64,64);
   if (isBuilding==true){
-    ctx.drawImage(cursorImg,tower.x,tower.y);
-  }else{
     ctx.drawImage(cursorImg,cursor.x,cursor.y);
+  }else{
+      ctx.drawImage(cursorImg,tower.x,tower.y)
    }
 }
 setInterval (draw, 1000/FPS)
@@ -56,6 +56,7 @@ function cursorMove(event){
  cursor.x= event.offsetX;
  cursor.y= event.offsetY
  }
+
 var isBuilding= false
 
 $("#game-canvas").on("click", approve)
@@ -64,10 +65,11 @@ function approve (event){
   if (cursor.x>586 && cursor.y>416){
     isBuilding= true;
   }else{
-  if(isBuilding=true){
-    tower.x=cursor.x;
-    tower.y=cursor.y;
-  }
+    if(isBuilding==true){
+      tower.x=cursor.x;
+      tower.y=cursor.y
+      isBuilding=false
+    }
    }
 }
 
