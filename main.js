@@ -61,17 +61,17 @@ function Enemy(){
       this.y=enemyPath[this.pathDes].y;
       this.pathDes++;
       if(enemyPath[this.pathDes].x > this.x){
-        speedX=64;
-        speedY=0;
+        this.speedX=64;
+        this.speedY=0;
       }else if (enemyPath[this.pathDes].x < this.x) {
-        speedX=-64;
-        speedY=0;
+        this.speedX=-64;
+        this.speedY=0;
       }else if (enemyPath[this.pathDes].y > this.y) {
-        speedX=0;
-        speedY=64;
+        this.speedX=0;
+        this.speedY=64;
       }else if (enemyPath[this.pathDes].y < this.y) {
-        speedX=0;
-        speedY=-64;
+        this.speedX=0;
+        this.speedY=-64;
       }
     }else{
       this.x=this.x+this.speedX/FPS;
