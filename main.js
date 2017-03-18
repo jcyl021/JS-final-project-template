@@ -1,6 +1,8 @@
 var FPS=60
 var clock=0
 var hp=100
+var score=0
+var coins=0
 
 var bgImg= document.createElement("img");
 var enemyImg= document.createElement("img");
@@ -23,29 +25,32 @@ var ctx= canvas.getContext("2d");
 function draw (){
   clock++;
   ctx.drawImage(bgImg,0,0,640,480);
-
-  ctx.fillText("HP: "+hp,90,60);
-  ctx.font="18px Arial";
-  ctx.fillStyle="blue";
+  ctx.fillText("Score: "+score,90,60);
+  ctx.fillText("Coins: "+coins,90,37.5);
+  ctx.fillText("HP: "+hp,90,15);
+  ctx.font="18px Ariel";
+  ctx.fillStyle="pink";
   for(var i=0;i<enemies.length;i++){
     if(enemies[i].hp<=0){
       enemies.splice(i,1);
+      score+=10;
+      coins+=25;
     }else{
     enemies[i].move();
     ctx.drawImage(enemyImg,enemies[i].x,enemies[i].y);
     };};
     ctx.drawImage(buttonImg,button.x,button.y,64,64);
     if (isBuilding==true){
-    ctx.drawImage(cursorImg,cursor.x,cursor.y);
-    }else{
-    ctx.drawImage(cursorImg,tower.x,tower.y)
+    ctx.drawImage(cursorImg,cursor.x,cursor.y);}
+    for(var i=0;i<towers.length;i++){
+      ctx.drawImage(cursorImg,towers[i].x,towers[i].y);
+      towers[i].searchEnemy();
+      if(towers[i].aimingEnemyId!=null){
+      var id=towers[i].aimingEnemyId;
+        ctx.drawImage(crosshairImg, enemies[id].x, enemies[id].y);
+      }
     };
-    tower.searchEnemy();
-    if(tower.aimingEnemyId!=null){
-      var id=tower.aimingEnemyId;
-      ctx.drawImage(crosshairImg, enemies[id].x, enemies[id].y);
-    }
-  if(clock%80==0){
+    if(clock%80==0){
     var newEnemy = new Enemy();
     enemies.push(newEnemy);
   };
@@ -75,6 +80,12 @@ function Enemy(){
       this.x= enemyPath[this.pathDes].x;
       this.y=enemyPath[this.pathDes].y;
       this.pathDes++;
+      if(this.pathDes == enemyPath.length){
+        this.hp=0;
+        hp-=10;
+        return;
+      }
+
       if(enemyPath[this.pathDes].x > this.x){
         this.speedX=64;
         this.speedY=0;
@@ -149,34 +160,56 @@ function approve (event){
     isBuilding= true;
   }else{
     if(isBuilding==true){
-      tower.x=cursor.x-cursor.x%32;
-      tower.y=cursor.y-cursor.y%32;
-      isBuilding=false
+      var newTower = new Tower();
+      newTower.x=cursor.x-cursor.x%32;
+      newTower.y=cursor.y-cursor.y%32;
+      towers.push(newTower)
+      coins-=100;
     }
+    isBuilding=false
    }
 }
 
 
 
-var tower={
-  x:0,
-  y:0,
-  range:96,
-  aimingEnemyId:null,
-  searchEnemy: function(){
+function Tower(){
+  this.x=0;
+  this.y=0;
+  this.range=96;
+  this.aimingEnemyId=null;
+  this.searchEnemy = function(){
+    this.timeLeft-=1/FPS;
     for(i=0;i<enemies.length;i++){
       var dist = Math.sqrt(
         Math.pow(this.x-enemies[i].x,2)+Math.pow(this.y-enemies[i].y,2)
       );
       if (dist<=this.range) {
         this.aimingEnemyId=i;
+        if(this.timeLeft<=0){
+          this.shoot(i);
+          this.timeLeft=this.fireRate;
+        }
         return;
       }
     }
     this.aimingEnemyId=null;
-  }
-};
+  };
+  this.shoot = function(id){
+    ctx.beginPath();
+    ctx.moveTo(towers[i].x+16, towers[i].y+16);
+    ctx.lineTo(enemies[id].x+16, enemies[id].y+16);
+    enemies[id].hp-=this.damage;
+    ctx.strokeStyle="blue";
+    ctx.lineWidth=5;
+    ctx.stroke();
+  };
+  this.fireRate=1;
+  this.timeLeft=1;
+  this.damage=3.34;
+}
 
+
+var towers=[];
 
 
 function isCollided (pointX, pointY, selfX, selfY, indctrWidth, indctrHeight){
