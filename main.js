@@ -2,7 +2,7 @@ var FPS=60
 var clock=0
 var hp=100
 var score=0
-var coins=0
+var coins=300
 
 var bgImg= document.createElement("img");
 var enemyImg= document.createElement("img");
@@ -41,7 +41,7 @@ function draw (){
     };};
     ctx.drawImage(buttonImg,button.x,button.y,64,64);
     if (isBuilding==true){
-    ctx.drawImage(cursorImg,cursor.x,cursor.y);}
+    ctx.drawImage(cursorImg,cursor.x-cursor.x%32,cursor.y-cursor.y%32);}
     for(var i=0;i<towers.length;i++){
       ctx.drawImage(cursorImg,towers[i].x,towers[i].y);
       towers[i].searchEnemy();
@@ -54,10 +54,21 @@ function draw (){
     var newEnemy = new Enemy();
     enemies.push(newEnemy);
   };
+  if(hp==0){
+    clearInterval(intervalID);
+    ctx.font= "90px Ariel";
+    ctx.fillStyle="white";
+    ctx.fillText("Good Game",100,200);
+    ctx.font= "50px Ariel";
+    ctx.fillText("YOU SCORED "+score+" POINTS",40,300);
+    hp=0
+  };
 }
 
 
-setInterval (draw, 1000/FPS)
+var intervalID = setInterval (draw, 1000/FPS)
+
+
 
 
 
@@ -148,7 +159,7 @@ $("#game-canvas").on("mousemove", cursorMove)
 
 function cursorMove(event){
  cursor.x= event.offsetX;
- cursor.y= event.offsetY
+ cursor.y= event.offsetY;
  }
 
 var isBuilding= false
@@ -159,7 +170,7 @@ function approve (event){
   if (cursor.x>586 && cursor.y>416){
     isBuilding= true;
   }else{
-    if(isBuilding==true){
+    if(isBuilding==true&& coins>=100){
       var newTower = new Tower();
       newTower.x=cursor.x-cursor.x%32;
       newTower.y=cursor.y-cursor.y%32;
@@ -196,7 +207,7 @@ function Tower(){
   };
   this.shoot = function(id){
     ctx.beginPath();
-    ctx.moveTo(towers[i].x+16, towers[i].y+16);
+    ctx.moveTo(this.x+16, this.y+16);
     ctx.lineTo(enemies[id].x+16, enemies[id].y+16);
     enemies[id].hp-=this.damage;
     ctx.strokeStyle="blue";
@@ -205,7 +216,7 @@ function Tower(){
   };
   this.fireRate=1;
   this.timeLeft=1;
-  this.damage=3.34;
+  this.damage=3;
 }
 
 
