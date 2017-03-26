@@ -8,6 +8,7 @@ var edc=0
 var td=3
 var tcount=0
 var tcost=100
+var timer=0
 
 var bgImg= document.createElement("img");
 var enemyImg= document.createElement("img");
@@ -81,20 +82,23 @@ function enemyHealth(){
   }
 }
 function towerDamage(){
-  if(score%1000==0&&score!=0){
+  if(timer%60==0){
     td++;
   }
 }
 function towerCost(){
-  if(tcount==5&&tcount!=0){
+  if(tcount>5&&tcount!=0){
     tcost+=50;
     tcount=0;
   }
 }
+function time(){
+  timer++
+}
 setInterval(enemyHealth, 1000/FPS)
-setInterval(towerDamage, 5000)
+setInterval(towerDamage, 1000)
 setInterval(towerCost, 5000)
-
+setInterval(time, 1000)
 
 
 
