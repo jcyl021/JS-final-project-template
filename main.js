@@ -3,6 +3,11 @@ var clock=0
 var hp=100
 var score=0
 var coins=300
+var ehp=9
+var edc=0
+var td=3
+var tcount=0
+var tcost=100
 
 var bgImg= document.createElement("img");
 var enemyImg= document.createElement("img");
@@ -35,6 +40,7 @@ function draw (){
       enemies.splice(i,1);
       score+=10;
       coins+=25;
+      edc++;
     }else{
     enemies[i].move();
     ctx.drawImage(enemyImg,enemies[i].x,enemies[i].y);
@@ -60,13 +66,38 @@ function draw (){
     ctx.fillStyle="white";
     ctx.fillText("Good Game",100,200);
     ctx.font= "50px Ariel";
-    ctx.fillText("YOU SCORED "+score+" POINTS",40,300);
+    ctx.fillText("YOU SCORED "+score+" POINTS",36,300);
     hp=0
   };
 }
 
 
 var intervalID = setInterval (draw, 1000/FPS)
+
+function enemyHealth(){
+  if(edc==10){
+    ehp+=2;
+    edc=0;
+  }
+}
+function towerDamage(){
+  if(score%1000==0&&score!=0){
+    td++;
+  }
+}
+function towerCost(){
+  if(tcount==5&&tcount!=0){
+    tcost+=50;
+    tcount=0;
+  }
+}
+setInterval(enemyHealth, 1000/FPS)
+setInterval(towerDamage, 5000)
+setInterval(towerCost, 5000)
+
+
+
+
 
 
 
@@ -75,7 +106,7 @@ var intervalID = setInterval (draw, 1000/FPS)
 function Enemy(){
   this.x=0;
   this.y=32;
-  this.hp=10;
+  this.hp=ehp;
   this.pathDes=0;
   this.speedX=0;
   this.speedY=64;
@@ -170,12 +201,13 @@ function approve (event){
   if (cursor.x>586 && cursor.y>416){
     isBuilding= true;
   }else{
-    if(isBuilding==true&& coins>=100){
+    if(isBuilding==true&& coins>=tcost){
       var newTower = new Tower();
       newTower.x=cursor.x-cursor.x%32;
       newTower.y=cursor.y-cursor.y%32;
       towers.push(newTower)
-      coins-=100;
+      coins-=tcost;
+      tcount++;
     }
     isBuilding=false
    }
@@ -216,7 +248,7 @@ function Tower(){
   };
   this.fireRate=1;
   this.timeLeft=1;
-  this.damage=3;
+  this.damage=td;
 }
 
 
